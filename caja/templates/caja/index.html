@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% if operations %}
+    <ul>
+        {% for op in operations %}
+        <li> {{op.monto}} || {{op.metodo}} || {{op.motivo}} </li>
+        {% endfor %}
+    </ul>
+    {%endif%}
+
+    <h3>total zelle: {{sumZelle}}</h3>
+</body>
+</html>
