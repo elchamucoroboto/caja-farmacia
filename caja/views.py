@@ -3,9 +3,11 @@ from django.http import HttpResponse
 from django.template import loader
 from .models import Operacion
 from datetime import date
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
+
 def index(request):
 
     today = date.today()

@@ -10,4 +10,5 @@ class Operacion(models.Model):
     
 
     def __str__(self):
-        return str(self.monto)
+        result = str(self.monto) + '||' + str(self.motivo) + '||' + str(self.metodo) + '||' + str(self.fecha)
+        return result
