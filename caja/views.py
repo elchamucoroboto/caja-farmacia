@@ -1,14 +1,16 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from .models import Operacion
 from datetime import date
 from django.contrib.auth.decorators import login_required
 from .forms import opForm
+from django.utils import timezone
+
 
 
 # Create your views here.
-
+@login_required(login_url='/login')
 def index(request):
 
     from .forms import opForm
@@ -18,11 +20,46 @@ def index(request):
         today = date.today()
         operations = Operacion.objects.filter(fecha__year=today.year, fecha__month=today.month, fecha__day=today.day)
         template = loader.get_template('caja/index.html')
+
+        listZelle = [0]
+        listPunto = [0]
+        listEfectivoD = [0]
+        listEfectivoBS = [0]
+        fondoCajaD = 0.00
+        fondoCajaBs = 0.00
+        sumZelle = 0.00
+        sumPunto = 0.00
+        sumEfectivoD = 0.00
+        sumEfectivoBS = 0.00
+        venta_total_dolares = 0.00
+        venta_total_bolivares = 0.00
+
+        for op in operations:
+            if 'ZELLE' in op.metodo:
+                listZelle.append(op.monto)
+                sumZelle = sum(listZelle)
+
         context = {'operations': operations,
-                    'form': form}
+                    'form': form,
+                    'sumZelle': sumZelle}
         return HttpResponse(template.render(context, request))
+    
     else:
 
+        form = opForm(request.POST)
+        if form.is_valid():
+
+            monto = form.cleaned_data['monto']
+            metodo = form.cleaned_data['metodo']
+            motivo = form.cleaned_data['motivo']
+            op = Operacion(monto=monto, metodo=metodo,motivo=motivo,fecha=timezone.now()) 
+            op.save()
+
+        return HttpResponseRedirect('/')
+
+
+
+        '''
         today = date.today()
         operations = Operacion.objects.filter(fecha__year=today.year, fecha__month=today.month, fecha__day=today.day)
 
@@ -85,3 +122,4 @@ def index(request):
             'fondoCajaBs' : currencyFormat(fondoCajaBs),
         }
         return HttpResponse(template.render(context, request))
+        '''
