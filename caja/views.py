@@ -42,6 +42,7 @@ def index(request):
         context = {'operations': operations,
                     'form': form,
                     'sumZelle': sumZelle}
+        template = loader.get_template('caja/index.html')
         return HttpResponse(template.render(context, request))
     
     else:
@@ -52,14 +53,20 @@ def index(request):
             monto = form.cleaned_data['monto']
             metodo = form.cleaned_data['metodo']
             motivo = form.cleaned_data['motivo']
-            op = Operacion(monto=monto, metodo=metodo,motivo=motivo,fecha=timezone.now()) 
+            op = Operacion(monto=monto, metodo=metodo,motivo=motivo,fecha=date.today()) 
             op.save()
 
         return HttpResponseRedirect('/')
 
 
 
-        '''
+def informes(request):
+    template = loader.get_template('caja/informes.html')
+    context = {'tumama': 'tumama'}
+    return HttpResponse(template.render(context, request))
+
+
+'''
         today = date.today()
         operations = Operacion.objects.filter(fecha__year=today.year, fecha__month=today.month, fecha__day=today.day)
 
