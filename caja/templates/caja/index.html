@@ -1,19 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{% extends 'caja/base.html' %}
+
+{% block opform %}
+
+<form action="" method='POST'>
+  {% csrf_token %}
+
+  {{form}}
+</form>
+
+    <form action=""  autocomplete="off" method="POST">
+                    {% csrf_token %}
+                      <div class="form-row">
+                        <div class="col-3">
+                          <input type="text" id="motivo" class="form-control autocomplete" placeholder="MONTO" name="monto">
+
+                        </div>
+                        <div class="form-group col-3">
+                          
+                          <select class="form-control" id="exampleFormControlSelect1" name="method">
+                            <option >METODO</option>
+                            <option>PUNTO DE VENTA</option>
+                            <option>DOLARES EFECTIVO</option>
+                            <option>BOLIVARES EFECTIVO</option>
+                            <option>ZELLE</option>
+                            <option>FONDO DE CAJA DOLARES</option>
+                            <option>FONDO DE CAJA BOLIVARES</option>
+                            
+                           
+                            
+                          </select>
+                        </div>
+                        <div class="col-3">
+                          <input type="text" id="motivo" class="form-control autocomplete" placeholder="MOTIVO" name="reason">
+                        </div>
+                        <div class="col-3">
+                          <button class="btn btn-success btn-block">Enviar</button>
+                        </div>
+                      </div>
+                    </form>
+
+{% endblock %}
+
+
+
+
+{% block operaciones %}
+
     {% if operations %}
-    <ul>
+    <ul class='list-group'> 
         {% for op in operations %}
-        <li> {{op.monto}} || {{op.metodo}} || {{op.motivo}} </li>
+        
+        <li class='list-group-item'><strong>{{ op.fecha}} || <span class="op-amount"> {{op.monto}} </span> || {{op.metodo}} || {{op.motivo}}</strong></li></li>
+
         {% endfor %}
     </ul>
     {%endif%}
 
+    {% endblock %}
+
+    {% block totales %}
     <h3>total zelle: {{sumZelle}}</h3>
+    {% endblock %}
+
+
+    
 </body>
 </html>
