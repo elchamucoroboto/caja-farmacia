@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'n903a@3z5psio(mvlxr5fcqcjq5aug4v17-oaj4@%9i=#marxx'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['shielded-brushlands-48704.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['shielded-brushlands-48704.herokuapp.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -110,13 +110,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Caracas'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = False
+USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)

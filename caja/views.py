@@ -4,8 +4,9 @@ from django.template import loader
 from .models import Operacion
 from datetime import date
 from django.contrib.auth.decorators import login_required
-from .forms import opForm
+from .forms import opForm, fechaForm
 from django.utils import timezone
+import datetime
 
 
 
@@ -53,7 +54,7 @@ def index(request):
             monto = form.cleaned_data['monto']
             metodo = form.cleaned_data['metodo']
             motivo = form.cleaned_data['motivo']
-            op = Operacion(monto=monto, metodo=metodo,motivo=motivo,fecha=date.today()) 
+            op = Operacion(monto=monto, metodo=metodo,motivo=motivo,fecha=timezone.now()) #fecha=date.today()
             op.save()
 
         return HttpResponseRedirect('/')
@@ -61,9 +62,36 @@ def index(request):
 
 
 def informes(request):
-    template = loader.get_template('caja/informes.html')
-    context = {'tumama': 'tumama'}
-    return HttpResponse(template.render(context, request))
+    
+    if request.method == 'POST':
+        form = fechaForm(request.POST)
+        if form.is_valid():
+
+            desde = form.cleaned_data['desde'] 
+            hasta = form.cleaned_data['hasta']
+
+            #desde = str(desde)
+            #desde = desde.replace('-', ',')
+            #hasta = str(hasta)
+            #hasta = hasta.replace('-', ',')
+
+            o = Operacion.objects.filter(fecha__date__range=[desde, hasta])
+
+            
+
+            
+
+            context = {'desde': desde,
+                    'hasta': hasta}
+            return HttpResponse(str(o[1].monto))
+
+    else:
+    
+        form = fechaForm
+    
+        template = loader.get_template('caja/informes.html')
+        context = {'form': form }
+        return HttpResponse(template.render(context, request))
 
 
 '''

@@ -1,3 +1,12 @@
 {% extends 'caja/base.html' %}
 
-tu madre
+{% block informes%}
+
+<form action="" method="post">
+    {% csrf_token %}
+{{form.desde}}
+{{form.hasta}}
+<input type="submit" value="nose">
+</form>
+
+{% endblock %}
