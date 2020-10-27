@@ -24,6 +24,8 @@ def index(request):
     sumPunto = 0.00
     sumEfectivoD = 0.00
     sumEfectivoBS = 0.00
+    valeD = 0.00
+    valeB = 0.00
     venta_total_dolares = 0.00
     venta_total_bolivares = 0.00
 
@@ -86,7 +88,8 @@ def index(request):
                 fondoCajaD = op.monto
 
 
-
+        sumEfectivoD = sumEfectivoD - valeD
+        sumEfectivoBS = sumEfectivoBS - valeB
         venta_total_bolivares = sumEfectivoBS+sumPunto
         venta_total_dolares = sumZelle+sumEfectivoD
 
@@ -115,7 +118,7 @@ def index(request):
             motivo = form.cleaned_data['motivo']
             motivo = motivo.upper()
 
-            if 'DEVOLUCION' in motivo:
+            if 'DEVOLUCION' in motivo or 'VALE DOLARES' in metodo or 'VALE BOLIVARES' in metodo:
                 monto = floatToNegative(monto)
 
             if 'FONDO CAJA BOLIVARES' == metodo:
