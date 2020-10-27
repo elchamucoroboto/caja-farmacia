@@ -14,6 +14,19 @@ import datetime
 @login_required(login_url='/login')
 def index(request):
 
+    listZelle = [0]
+    listPunto = [0]
+    listEfectivoD = [0]
+    listEfectivoBS = [0]
+    fondoCajaD = 0.00
+    fondoCajaBs = 0.00
+    sumZelle = 0.00
+    sumPunto = 0.00
+    sumEfectivoD = 0.00
+    sumEfectivoBS = 0.00
+    venta_total_dolares = 0.00
+    venta_total_bolivares = 0.00
+
     def floatToNegative(monto):
 
         monto = '-'+str(monto)
@@ -30,19 +43,19 @@ def index(request):
 
 
 
-        listZelle = [0]
-        listPunto = [0]
-        listEfectivoD = [0]
-        listEfectivoBS = [0]
-        fondoCajaD = 0.00
-        fondoCajaBs = 0.00
-        sumZelle = 0.00
-        sumPunto = 0.00
-        sumEfectivoD = 0.00
-        sumEfectivoBS = 0.00
-        venta_total_dolares = 0.00
-        venta_total_bolivares = 0.00
-        
+        #listZelle = [0]
+        #listPunto = [0]
+        #listEfectivoD = [0]
+        #listEfectivoBS = [0]
+        #fondoCajaD = 0.00
+        #fondoCajaBs = 0.00
+        #sumZelle = 0.00
+        #sumPunto = 0.00
+        #sumEfectivoD = 0.00
+        #sumEfectivoBS = 0.00
+        #venta_total_dolares = 0.00
+        #venta_total_bolivares = 0.00
+     
 
         for op in operations:
             if 'ZELLE' in op.metodo:
@@ -64,10 +77,31 @@ def index(request):
                 listEfectivoBS.append(op.monto)
                 sumEfectivoBS = sum(listEfectivoBS)
 
+        for op in operations:
+            if 'FONDO CAJA BOLIVARES' == op.metodo:
+                fondoCajaBs = op.monto
+
+        for op in operations:
+            if 'FONDO CAJA DOLARES' == op.metodo:
+                fondoCajaD = op.monto
+
+
+
+        venta_total_bolivares = sumEfectivoBS+sumPunto
+        venta_total_dolares = sumZelle+sumEfectivoD
 
         context = {'operations': operations,
                     'form': form,
-                    'sumZelle': sumZelle}
+                    'sumZelle': sumZelle,
+                    'sumPunto': sumPunto,
+                    'sumEfectivoD': sumEfectivoD,
+                    'sumEfectivoBS': sumEfectivoBS,
+                    'venta_total_bolivares': venta_total_bolivares,
+                    'venta_total_dolares':venta_total_dolares,
+                    'fondoCajaD':fondoCajaD,
+                    'fondoCajaBs':fondoCajaBs,
+                    }
+
         template = loader.get_template('caja/index.html')
         return HttpResponse(template.render(context, request))
     
@@ -80,8 +114,18 @@ def index(request):
             metodo = form.cleaned_data['metodo']
             motivo = form.cleaned_data['motivo']
             motivo = motivo.upper()
+
             if 'DEVOLUCION' in motivo:
                 monto = floatToNegative(monto)
+
+            if 'FONDO CAJA BOLIVARES' == metodo:
+                fondoCajaBs = monto
+            
+            if 'FONDO CAJA DOLARES' == metodo:
+                fondoCajaD = monto
+
+
+
                 
             op = Operacion(monto=monto, metodo=metodo,motivo=motivo,fecha=date.today()) #()timezone.now()
             op.save()
@@ -104,15 +148,15 @@ def informes(request):
             #hasta = str(hasta)
             #hasta = hasta.replace('-', ',')
 
-            o = Operacion.objects.filter(fecha__date__range=[desde, hasta])
+            operations = Operacion.objects.filter(fecha__date__range=[desde, hasta])
 
             
 
             
-
-            context = {'desde': desde,
-                    'hasta': hasta}
-            return HttpResponse(str(o[1].monto))
+            template = loader.get_template('caja/informes.html')
+            context = {'operations': operations,
+            'form':form}
+            return HttpResponse(template.render(context, request))
 
     else:
     

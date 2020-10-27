@@ -47,8 +47,33 @@
 
     {% endblock %}
 
+
+<!--
+
+
+
+        #listZelle = [0]
+        #listPunto = [0]
+        #listEfectivoD = [0]
+        #listEfectivoBS = [0]
+        #fondoCajaD = 0.00
+        #fondoCajaBs = 0.00
+        #sumZelle = 0.00
+        #sumPunto = 0.00
+        #sumEfectivoD = 0.00
+        #sumEfectivoBS = 0.00
+        #venta_total_dolares = 0.00
+        #venta_total_bolivares = 0.00
+
+  //-->
     {% block totales %}
-    <h3>total zelle: {{sumZelle}}</h3>
+    <h5>Fondo Caja Dolares: {{fondoCajaD}}</h5>
+    <h5>Fondo Caja Bolivares: {{fondoCajaBs}}</h5>
+    <h5>Total Zelle: {{sumZelle}}</h5>
+    <h5>Total Punto: {{sumPunto}}</h5>
+    <h5>Total Efectivo Dolares: {{sumEfectivoD}}</h5>
+    <h5>Total Dolares: {{venta_total_dolares}}</h5>
+    <h5>Total Bolivares {{venta_total_bolivares}}</h5>
     {% endblock %}
 
 
