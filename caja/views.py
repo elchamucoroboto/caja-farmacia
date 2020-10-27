@@ -98,6 +98,8 @@ def index(request):
         #TOTALES
         venta_total_bolivares = sumEfectivoBS+sumPunto
         venta_total_dolares = sumZelle+sumEfectivoD
+        dolares_en_caja = fondoCajaD + sumEfectivoD
+        bs_en_caja = fondoCajaBs + sumEfectivoBS
 
         context = {'operations': operations,
                     'form': form,
@@ -109,6 +111,8 @@ def index(request):
                     'venta_total_dolares':venta_total_dolares,
                     'fondoCajaD':fondoCajaD,
                     'fondoCajaBs':fondoCajaBs,
+                    'dolares_en_caja': dolares_en_caja,
+                    'bs_en_caja': bs_en_caja
                     }
 
         template = loader.get_template('caja/index.html')
