@@ -1,5 +1,5 @@
 from django import forms
-#from .choices import METODO_CHOICES
+
 
 class opForm(forms.Form):
     monto = forms.FloatField(required=True)
