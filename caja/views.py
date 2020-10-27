@@ -96,13 +96,8 @@ def index(request):
                 sumEfectivoBS = sumEfectivoBS - op.monto
  
 
-<<<<<<< HEAD
-        sumEfectivoD = sumEfectivoD - valeD
-        sumEfectivoBS = sumEfectivoBS - valeB
-=======
 
         #TOTALES
->>>>>>> master
         venta_total_bolivares = sumEfectivoBS+sumPunto
         venta_total_dolares = sumZelle+sumEfectivoD
         dolares_en_caja = fondoCajaD + sumEfectivoD
