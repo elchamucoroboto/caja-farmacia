@@ -1,12 +1,9 @@
 {% extends 'caja/base.html' %}
 {% load crispy_forms_tags %}
-{% load tz%}
 
-{% if user.is_authenticated %}
-TU MADRE
-{% else %}
-<a href="/login">Iniciar Sesion.</a>
-{% endif %}
+
+
+
 {% block opform %}
 
 
@@ -42,7 +39,7 @@ TU MADRE
     <ul class='list-group'> 
         {% for op in operations %}
         
-        <li class='list-group-item'><strong>{{ op.fecha|timezone:"America/Caracas" }} || <span class="op-amount"> {{op.monto}} </span> || {{op.metodo}} || {{op.motivo}}</strong></li></li>
+        <li class='list-group-item'><strong>{{ op.fecha|date:"SHORT_DATE_FORMAT" }} || <span class="op-amount"> {{op.monto}} </span> || {{op.metodo}} || {{op.motivo}}</strong></li></li>
 
         {% endfor %}
     </ul>
@@ -53,6 +50,11 @@ TU MADRE
     {% block totales %}
     <h3>total zelle: {{sumZelle}}</h3>
     {% endblock %}
+
+
+
+
+
 
 
     

@@ -14,6 +14,12 @@ import datetime
 @login_required(login_url='/login')
 def index(request):
 
+    def floatToNegative(monto):
+
+        monto = '-'+str(monto)
+        monto = float(monto)
+        return monto
+
     from .forms import opForm
 
     if request.method == 'GET':
@@ -21,6 +27,8 @@ def index(request):
         today = date.today()
         operations = Operacion.objects.filter(fecha__year=today.year, fecha__month=today.month, fecha__day=today.day)
         template = loader.get_template('caja/index.html')
+
+
 
         listZelle = [0]
         listPunto = [0]
@@ -34,11 +42,28 @@ def index(request):
         sumEfectivoBS = 0.00
         venta_total_dolares = 0.00
         venta_total_bolivares = 0.00
+        
 
         for op in operations:
             if 'ZELLE' in op.metodo:
                 listZelle.append(op.monto)
                 sumZelle = sum(listZelle)
+
+        for op in operations:
+            if 'PUNTO' in op.metodo:
+                listPunto.append(op.monto)
+                sumPunto = sum(listPunto)
+
+        for op in operations:
+            if 'DOLARES EN EFECTIVO' in op.metodo:
+                listEfectivoD.append(op.monto)
+                sumEfectivoD = sum(listEfectivoD)
+
+        for op in operations:
+            if 'BOLIVARES EN EFECTIVO' in op.metodo:
+                listEfectivoBS.append(op.monto)
+                sumEfectivoBS = sum(listEfectivoBS)
+
 
         context = {'operations': operations,
                     'form': form,
@@ -54,7 +79,11 @@ def index(request):
             monto = form.cleaned_data['monto']
             metodo = form.cleaned_data['metodo']
             motivo = form.cleaned_data['motivo']
-            op = Operacion(monto=monto, metodo=metodo,motivo=motivo,fecha=timezone.now()) #fecha=date.today()
+            motivo = motivo.upper()
+            if 'DEVOLUCION' in motivo:
+                monto = floatToNegative(monto)
+                
+            op = Operacion(monto=monto, metodo=metodo,motivo=motivo,fecha=date.today()) #()timezone.now()
             op.save()
 
         return HttpResponseRedirect('/')
