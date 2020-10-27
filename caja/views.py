@@ -85,8 +85,17 @@ def index(request):
             if 'FONDO CAJA DOLARES' == op.metodo:
                 fondoCajaD = op.monto
 
+        for op in operations:
+            if 'VALE EN DOLARES' == op.metodo:
+                sumEfectivoD = sumEfectivoD - op.monto
+
+        for op in operations:
+            if 'VALE EN BOLIVARES' == op.metodo:
+                sumEfectivoBS = sumEfectivoBS - op.monto
+ 
 
 
+        #TOTALES
         venta_total_bolivares = sumEfectivoBS+sumPunto
         venta_total_dolares = sumZelle+sumEfectivoD
 
@@ -124,6 +133,9 @@ def index(request):
             if 'FONDO CAJA DOLARES' == metodo:
                 fondoCajaD = monto
 
+            if 'VALE EN DOLARES' == metodo:
+                sumEfectivoD = sumEfectivoD - monto
+
 
 
                 
@@ -131,6 +143,7 @@ def index(request):
             op.save()
 
         return HttpResponseRedirect('/')
+        
 
 
 

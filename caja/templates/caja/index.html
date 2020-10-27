@@ -67,11 +67,12 @@
 
   //-->
     {% block totales %}
-    <h5>Fondo Caja Dolares: {{fondoCajaD}}</h5>
+    <h5>Fondo Caja Dolares: <span class='op-amount'>{{fondoCajaD}}</span></h5>
     <h5>Fondo Caja Bolivares: {{fondoCajaBs}}</h5>
     <h5>Total Zelle: {{sumZelle}}</h5>
     <h5>Total Punto: {{sumPunto}}</h5>
     <h5>Total Efectivo Dolares: {{sumEfectivoD}}</h5>
+    <h5>Total Efectivo Bolivares: {{sumEfectivoBS}}</h5>
     <h5>Total Dolares: {{venta_total_dolares}}</h5>
     <h5>Total Bolivares {{venta_total_bolivares}}</h5>
     {% endblock %}
