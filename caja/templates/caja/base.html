@@ -118,11 +118,28 @@
       classColor[i].className += " " +colores[2]
 
     }
-    if (classColor[i].innerHTML.indexOf('DEVOLUCION') > -1) {
+    if (classColor[i].innerHTML.indexOf('DEVOLUCION') > -1 || classColor[i].innerHTML.indexOf('VALE') > -1 )  {
       classColor[i].className += " " +colores[1]
 
     }
   } 
+
+
+var formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+
+    // These options are needed to round to whole numbers if that's what you want.
+    //minimumFractionDigits: 0,
+    //maximumFractionDigits: 0,
+  });
+
+  var amounts = document.getElementsByClassName("op-amount");
+  for (var i = 0; i < amounts.length; i++) {
+
+       amounts[i].innerHTML = formatter.format(parseFloat(amounts[i].innerHTML));
+  }
+
 
 </script>
 

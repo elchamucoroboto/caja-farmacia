@@ -87,11 +87,26 @@ def index(request):
             if 'FONDO CAJA DOLARES' == op.metodo:
                 fondoCajaD = op.monto
 
+        for op in operations:
+            if 'VALE EN DOLARES' == op.metodo:
+                sumEfectivoD = sumEfectivoD - op.monto
 
+        for op in operations:
+            if 'VALE EN BOLIVARES' == op.metodo:
+                sumEfectivoBS = sumEfectivoBS - op.monto
+ 
+
+<<<<<<< HEAD
         sumEfectivoD = sumEfectivoD - valeD
         sumEfectivoBS = sumEfectivoBS - valeB
+=======
+
+        #TOTALES
+>>>>>>> master
         venta_total_bolivares = sumEfectivoBS+sumPunto
         venta_total_dolares = sumZelle+sumEfectivoD
+        dolares_en_caja = fondoCajaD + sumEfectivoD
+        bs_en_caja = fondoCajaBs + sumEfectivoBS
 
         context = {'operations': operations,
                     'form': form,
@@ -103,6 +118,8 @@ def index(request):
                     'venta_total_dolares':venta_total_dolares,
                     'fondoCajaD':fondoCajaD,
                     'fondoCajaBs':fondoCajaBs,
+                    'dolares_en_caja': dolares_en_caja,
+                    'bs_en_caja': bs_en_caja
                     }
 
         template = loader.get_template('caja/index.html')
@@ -127,6 +144,9 @@ def index(request):
             if 'FONDO CAJA DOLARES' == metodo:
                 fondoCajaD = monto
 
+            if 'VALE EN DOLARES' == metodo:
+                sumEfectivoD = sumEfectivoD - monto
+
 
 
                 
@@ -134,6 +154,7 @@ def index(request):
             op.save()
 
         return HttpResponseRedirect('/')
+        
 
 
 
