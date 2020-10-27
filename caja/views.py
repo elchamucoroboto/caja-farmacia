@@ -135,6 +135,19 @@ def index(request):
 
 
 def informes(request):
+
+    listZelle = [0]
+    listPunto = [0]
+    listEfectivoD = [0]
+    listEfectivoBS = [0]
+    fondoCajaD = 0.00
+    fondoCajaBs = 0.00
+    sumZelle = 0.00
+    sumPunto = 0.00
+    sumEfectivoD = 0.00
+    sumEfectivoBS = 0.00
+    venta_total_dolares = 0.00
+    venta_total_bolivares = 0.00
     
     if request.method == 'POST':
         form = fechaForm(request.POST)
@@ -150,12 +163,49 @@ def informes(request):
 
             operations = Operacion.objects.filter(fecha__date__range=[desde, hasta])
 
+            for op in operations:
+                if 'ZELLE' in op.metodo:
+                    listZelle.append(op.monto)
+                    sumZelle = sum(listZelle)
+
+            for op in operations:
+                if 'PUNTO' in op.metodo:
+                    listPunto.append(op.monto)
+                    sumPunto = sum(listPunto)
+
+            for op in operations:
+                if 'DOLARES EN EFECTIVO' in op.metodo:
+                    listEfectivoD.append(op.monto)
+                    sumEfectivoD = sum(listEfectivoD)
+
+            for op in operations:
+                if 'BOLIVARES EN EFECTIVO' in op.metodo:
+                    listEfectivoBS.append(op.monto)
+                    sumEfectivoBS = sum(listEfectivoBS)
+
+            for op in operations:
+                if 'FONDO CAJA BOLIVARES' == op.metodo:
+                    fondoCajaBs = op.monto
+
+            for op in operations:
+                if 'FONDO CAJA DOLARES' == op.metodo:
+                    fondoCajaD = op.monto
+
             
 
             
             template = loader.get_template('caja/informes.html')
             context = {'operations': operations,
-            'form':form}
+            'form':form,
+            'sumZelle': sumZelle,
+            'sumPunto': sumPunto,
+            'sumEfectivoD': sumEfectivoD,
+            'sumEfectivoBS': sumEfectivoBS,
+            'venta_total_bolivares': venta_total_bolivares,
+            'venta_total_dolares':venta_total_dolares,
+            'fondoCajaD':fondoCajaD,
+            'fondoCajaBs':fondoCajaBs,}
+
             return HttpResponse(template.render(context, request))
 
     else:
