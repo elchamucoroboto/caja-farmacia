@@ -79,10 +79,14 @@ WSGI_APPLICATION = 'dcaja_project.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default':{
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'test',
+        'USER': 'postgres',
+        'PASSWORD': 'holahola85',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+        }
 }
 
 
