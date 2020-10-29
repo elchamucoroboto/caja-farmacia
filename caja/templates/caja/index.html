@@ -36,12 +36,39 @@
 {% block operaciones %}
 
     {% if operations %}
-    <ul class='list-group'> 
-        {% for op in operations %}
-        
-        <li class='list-group-item'><strong>{{ op.fecha|date:"SHORT_DATE_FORMAT" }} || <span class="op-amount"> {{op.monto}} </span> || {{op.metodo}} || {{op.motivo}}</strong></li></li>
 
-        {% endfor %}
+            <!--
+    <ul class='list-group'> 
+        
+
+        <li class='list-group-item'><strong>{{ op.fecha|date:"SHORT_DATE_FORMAT" }} || <span class="op-amount"> {{op.monto}} </span> || {{op.metodo}} || {{op.motivo}}</strong></li></li>
+-->
+        <table class="table ">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Fecha</th>
+              <th scope="col">Monto</th>
+              <th scope="col">Metodo</th>
+              <th scope="col">Motivo</th>
+             
+            </tr>
+          </thead>
+          <tbody>
+            
+              {% for op in operations %}
+              <tr class='tabla'>
+              <td>{{ op.fecha|date:"SHORT_DATE_FORMAT" }}</td>
+              <td><span class="op-amount"> {{op.monto}} </span></td>
+              <td>{{op.metodo}}</td>
+              <td>{{op.motivo}}</td>
+              
+            </tr>
+            {% endfor %}
+
+          </tbody>
+        </table>
+
+        
     </ul>
     {%endif%}
 
