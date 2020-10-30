@@ -28,6 +28,8 @@ def index(request):
     venta_total_bolivares = 0.00
     listValesD = [0]
     sumValesD = 0.00
+    listValesBs = [0]
+    sumValesBs = [0]
 
     def floatToNegative(monto):
 
@@ -93,15 +95,19 @@ def index(request):
                 sumValesD = sum(listValesD)
 
         for op in operations:
-            if 'VALE EN BOLIVARES' == op.metodo:
-                sumEfectivoBS = sumEfectivoBS - op.monto
+            if 'VALE EN BOLIVARES' in op.metodo:
+                listValesBs.append(op.monto)
+                sumValesBs = sum(listValesBs)
  
+
+
 
 
         #TOTALES
         sumEfectivoD = sumEfectivoD + sumValesD
+        
         venta_total_bolivares = sumEfectivoBS+sumPunto
-        venta_total_dolares = sumZelle+sumEfectivoD
+        venta_total_dolares = sumZelle+sumEfectivoD #CONSULTAR ESTO.
 
         context = {'operations': operations,
                     'form': form,
@@ -158,9 +164,11 @@ def informes(request):
     listEfectivoD = [0]
     listEfectivoBS = [0]
     listValesD = [0]
+    listValesBs = [0]
     fondoCajaD = 0.00
     fondoCajaBs = 0.00
     sumValesD = 0.00
+    sumValesBs = 0.00
     sumZelle = 0.00
     sumPunto = 0.00
     sumEfectivoD = 0.00
@@ -207,6 +215,11 @@ def informes(request):
                 if 'VALE EN DOLARES' in op.metodo:
                     listValesD.append(op.monto)
                     sumValesD = sum(listValesD)
+
+            for op in operations:
+                if 'VALE EN BOLIVARES' in op.metodo:
+                    listValesBs.append(op.monto)
+                    sumValesBs = sum(listValesBs)
 
             for op in operations:
                 if 'FONDO CAJA BOLIVARES' == op.metodo:
