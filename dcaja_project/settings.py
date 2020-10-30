@@ -26,7 +26,11 @@ SECRET_KEY = 'n903a@3z5psio(mvlxr5fcqcjq5aug4v17-oaj4@%9i=#marxx'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+<<<<<<< HEAD
 ALLOWED_HOSTS = ['shielded-brushlands-48704.herokuapp.com', '127.0.0.1', 'localhost', 'caja-farmacia.herokuapp.com', 'caja-fiat.herokuapp.com']
+=======
+ALLOWED_HOSTS = ['cajaeuro.chickenkiller.com', '127.0.0.1', 'localhost']
+>>>>>>> testing
 
 
 # Application definition
@@ -79,10 +83,14 @@ WSGI_APPLICATION = 'dcaja_project.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default':{
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'test',
+        'USER': 'postgres',
+        'PASSWORD': 'holahola85',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+        }
 }
 
 
@@ -126,4 +134,7 @@ STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = "/"
 LOGIN_URL = "/login"
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+LOGOUT_URL = "/login"
+
+#test

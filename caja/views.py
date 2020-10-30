@@ -28,6 +28,10 @@ def index(request):
     valeB = 0.00
     venta_total_dolares = 0.00
     venta_total_bolivares = 0.00
+    listValesD = [0]
+    sumValesD = 0.00
+    listValesBs = [0]
+    sumValesBs = [0]
 
     def floatToNegative(monto):
 
@@ -88,24 +92,35 @@ def index(request):
                 fondoCajaD = op.monto
 
         for op in operations:
-            if 'VALE EN DOLARES' == op.metodo:
-                sumEfectivoD = sumEfectivoD - op.monto
+            if 'VALE EN DOLARES' in op.metodo:
+                listValesD.append(op.monto)
+                sumValesD = sum(listValesD)
 
         for op in operations:
-            if 'VALE EN BOLIVARES' == op.metodo:
-                sumEfectivoBS = sumEfectivoBS - op.monto
+            if 'VALE EN BOLIVARES' in op.metodo:
+                listValesBs.append(op.monto)
+                sumValesBs = sum(listValesBs)
  
 
 
+
+
         #TOTALES
+        sumEfectivoD = sumEfectivoD + sumValesD
+        
         venta_total_bolivares = sumEfectivoBS+sumPunto
+<<<<<<< HEAD
         venta_total_dolares = sumZelle+sumEfectivoD
         dolares_en_caja = fondoCajaD + sumEfectivoD
         bs_en_caja = fondoCajaBs + sumEfectivoBS
+=======
+        venta_total_dolares = sumZelle+sumEfectivoD #CONSULTAR ESTO.
+>>>>>>> testing
 
         context = {'operations': operations,
                     'form': form,
                     'sumZelle': sumZelle,
+                    'sum'
                     'sumPunto': sumPunto,
                     'sumEfectivoD': sumEfectivoD,
                     'sumEfectivoBS': sumEfectivoBS,
@@ -130,7 +145,11 @@ def index(request):
             motivo = form.cleaned_data['motivo']
             motivo = motivo.upper()
 
+<<<<<<< HEAD
             if 'DEVOLUCION' in motivo or 'VALE DOLARES' in metodo or 'VALE BOLIVARES' in metodo:
+=======
+            if 'DEVOLUCION' in motivo or 'VALE' in metodo:
+>>>>>>> testing
                 monto = floatToNegative(monto)
 
             if 'FONDO CAJA BOLIVARES' == metodo:
@@ -139,8 +158,7 @@ def index(request):
             if 'FONDO CAJA DOLARES' == metodo:
                 fondoCajaD = monto
 
-            if 'VALE EN DOLARES' == metodo:
-                sumEfectivoD = sumEfectivoD - monto
+
 
 
 
@@ -159,8 +177,12 @@ def informes(request):
     listPunto = [0]
     listEfectivoD = [0]
     listEfectivoBS = [0]
+    listValesD = [0]
+    listValesBs = [0]
     fondoCajaD = 0.00
     fondoCajaBs = 0.00
+    sumValesD = 0.00
+    sumValesBs = 0.00
     sumZelle = 0.00
     sumPunto = 0.00
     sumEfectivoD = 0.00
@@ -201,6 +223,17 @@ def informes(request):
                 if 'BOLIVARES EN EFECTIVO' in op.metodo:
                     listEfectivoBS.append(op.monto)
                     sumEfectivoBS = sum(listEfectivoBS)
+
+
+            for op in operations:
+                if 'VALE EN DOLARES' in op.metodo:
+                    listValesD.append(op.monto)
+                    sumValesD = sum(listValesD)
+
+            for op in operations:
+                if 'VALE EN BOLIVARES' in op.metodo:
+                    listValesBs.append(op.monto)
+                    sumValesBs = sum(listValesBs)
 
             for op in operations:
                 if 'FONDO CAJA BOLIVARES' == op.metodo:
